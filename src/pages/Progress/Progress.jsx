@@ -44,22 +44,22 @@ const Progress = () => {
   // Buscar os registros do usuário
   useEffect(() => {
     const fetchUserRecords = async () => {
-      console.log('AuthUser:', authUser);
-      console.log('UserData:', userData);
+      ('AuthUser:', authUser);
+      ('UserData:', userData);
       
       if (!userData?.uid) {
-        console.log('Nenhum usuário carregado');
+        ('Nenhum usuário carregado');
         return;
       }
 
       try {
-        console.log('Buscando registros para o usuário:', userData.uid);
+        ('Buscando registros para o usuário:', userData.uid);
         const recordsRef = collection(db, COLLECTIONS.USERS, userData.uid, 'records');
-        console.log('Referência da coleção:', recordsRef);
+        ('Referência da coleção:', recordsRef);
         
         const querySnapshot = await getDocs(recordsRef);
-        console.log('Documentos encontrados:', querySnapshot.docs.length);
-        console.log('Documentos:', querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
+        ('Documentos encontrados:', querySnapshot.docs.length);
+        ('Documentos:', querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
         
         // Mapear os documentos da subcoleção records
         const recordsData = {};
@@ -67,7 +67,7 @@ const Progress = () => {
         
         querySnapshot.docs.forEach(doc => {
           const data = doc.data();
-          console.log('Documento da prova:', data);
+          ('Documento da prova:', data);
           
           // Guardar os dados da prova usando o competitionName como chave
           recordsData[data.competitionName] = {
@@ -82,8 +82,8 @@ const Progress = () => {
           });
         });
 
-        console.log('Records processados:', recordsData);
-        console.log('Competições disponíveis:', competitionsData);
+        ('Records processados:', recordsData);
+        ('Competições disponíveis:', competitionsData);
 
         setUserRecords(recordsData);
         setCompetitions(competitionsData);
@@ -102,16 +102,16 @@ const Progress = () => {
 
   // Atualizar registros quando uma competição é selecionada
   useEffect(() => {
-    console.log('Competição selecionada:', selectedTest);
-    console.log('Dados disponíveis:', userRecords);
+    ('Competição selecionada:', selectedTest);
+    ('Dados disponíveis:', userRecords);
     
     if (selectedTest && userRecords[selectedTest]) {
       const record = userRecords[selectedTest];
-      console.log('Dados da competição:', record);
+      ('Dados da competição:', record);
 
       // Usar o tipo da competição diretamente
       const provaType = record.type || 'distance';
-      console.log('Tipo da prova:', provaType);
+      ('Tipo da prova:', provaType);
       setSelectedTestType(provaType);
       
       if (record.times && record.times.length > 0) {
@@ -126,7 +126,7 @@ const Progress = () => {
               : 0
           }));
         
-        console.log('Tempos processados:', sortedTimes);
+        ('Tempos processados:', sortedTimes);
         setRecordsForSelectedTest(sortedTimes);
       } else {
         setRecordsForSelectedTest([]);
@@ -191,9 +191,9 @@ const Progress = () => {
     }]
   };
 
-  console.log('Tipo de prova selecionado:', selectedTestType);
-  console.log('Dados do gráfico:', chartData);
-  console.log('Dados para o gráfico:', recordsForSelectedTest.map(r => 
+  ('Tipo de prova selecionado:', selectedTestType);
+  ('Dados do gráfico:', chartData);
+  ('Dados para o gráfico:', recordsForSelectedTest.map(r => 
     selectedTestType === 'time' ? r.distance : r.time
   ));
 

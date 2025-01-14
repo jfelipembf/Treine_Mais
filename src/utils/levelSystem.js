@@ -120,7 +120,7 @@ export const objectives = {
 
 // Função para calcular progresso do objetivo
 export const calculateObjectiveProgress = (type, value) => {
-  console.log(`Calculating progress for ${type} with value:`, value);
+  (`Calculating progress for ${type} with value:`, value);
   
   const objective = objectives[type];
   if (!objective) return null;
@@ -128,7 +128,7 @@ export const calculateObjectiveProgress = (type, value) => {
   // Para distância, converter de metros para km
   if (type === 'distance') {
     value = value / 1000; // Converter metros para km
-    console.log('Distance converted to km:', value);
+    ('Distance converted to km:', value);
   }
 
   const currentTarget = objective.baseTarget;
@@ -137,7 +137,7 @@ export const calculateObjectiveProgress = (type, value) => {
   const progress = (currentValue / currentTarget) * 100;
   const totalPoints = completedCycles * objective.points;
 
-  console.log(`Progress calculation for ${type}:`, {
+  (`Progress calculation for ${type}:`, {
     currentTarget,
     completedCycles,
     currentValue,
@@ -158,7 +158,7 @@ export const calculateObjectiveProgress = (type, value) => {
   }
 
   const fractionProgress = `${Math.floor(currentValue / (currentTarget / 5))}/5`;
-  console.log(`Fraction progress for ${type}:`, fractionProgress);
+  (`Fraction progress for ${type}:`, fractionProgress);
 
   return {
     progress,

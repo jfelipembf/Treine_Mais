@@ -27,11 +27,11 @@ const Exercises = () => {
       try {
         // Formata a data como dd/mm/yyyy para exibição
         const displayDate = format(selectedDate, 'dd/MM/yyyy');
-        console.log('Buscando treino para a data:', displayDate);
+        ('Buscando treino para a data:', displayDate);
 
         // Formata a data como yyyy-MM-dd para busca no Firebase
         const searchDate = format(selectedDate, 'yyyy-MM-dd');
-        console.log('Data formatada para busca:', searchDate);
+        ('Data formatada para busca:', searchDate);
 
         // Busca todos os treinos ativos para a data
         const trainingQuery = query(
@@ -40,12 +40,12 @@ const Exercises = () => {
         );
 
         const querySnapshot = await getDocs(trainingQuery);
-        console.log('Resultados encontrados:', querySnapshot.size);
+        ('Resultados encontrados:', querySnapshot.size);
 
         if (!querySnapshot.empty) {
           const trainingDoc = querySnapshot.docs[0];
           const trainingData = trainingDoc.data();
-          console.log('Dados do treino:', trainingData);
+          ('Dados do treino:', trainingData);
 
           setTraining({
             id: trainingDoc.id,
@@ -60,7 +60,7 @@ const Exercises = () => {
             isCompleted: false
           })));
         } else {
-          console.log('Nenhum treino encontrado para a data');
+          ('Nenhum treino encontrado para a data');
           setTraining(null);
           setExercises([]);
         }

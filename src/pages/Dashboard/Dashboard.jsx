@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser } from 'react-icons/fa';
-import { doc, updateDoc, arrayUnion, collection, addDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, collection, addDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BasicLayout from '../../components/BasicLayout/BasicLayout';
@@ -70,17 +70,17 @@ const Dashboard = () => {
     if (frequencyProgress) {
       // Aqui você pode implementar a lógica para atualizar pontos no Firestore
       // Por enquanto vamos apenas exibir uma mensagem
-      console.log('Parabéns! Você completou um objetivo de frequência!');
+      ('Parabéns! Você completou um objetivo de frequência!');
     }
     if (distanceProgress) {
       // Aqui você pode implementar a lógica para atualizar pontos no Firestore
       // Por enquanto vamos apenas exibir uma mensagem
-      console.log('Parabéns! Você completou um objetivo de distância!');
+      ('Parabéns! Você completou um objetivo de distância!');
     }
     if (timeProgress) {
       // Aqui você pode implementar a lógica para atualizar pontos no Firestore
       // Por enquanto vamos apenas exibir uma mensagem
-      console.log('Parabéns! Você completou um objetivo de tempo!');
+      ('Parabéns! Você completou um objetivo de tempo!');
     }
   }, [frequencyProgress, distanceProgress, timeProgress]);
 
@@ -107,10 +107,11 @@ const Dashboard = () => {
 
   const handleNewRecord = async (recordData) => {
     try {
-      const { competition, competitionName, time, distance, date } = recordData;
+      const { type, competition, competitionName, time, timeStr, distance, date } = recordData;
       const userId = userData?.uid || authUser?.uid;
       
-      if (!competition) {
+      // Only validate competition if it's a competition type record
+      if (type === 'competition' && !competition) {
         toast.error('Selecione uma competição', {
           position: "top-right",
           autoClose: 3000
@@ -118,47 +119,67 @@ const Dashboard = () => {
         return;
       }
 
-      // Criar o objeto do registro do tempo
-      const timeRecord = {
-        userId,
-        time: parseFloat(time) || 0,
-        distance: parseFloat(distance) || 0,
-        date: date || new Date().toISOString().split('T')[0],
-        createdAt: new Date().toISOString()
-      };
+      // Get user reference and current data for both competition and free records
+      const userRef = doc(db, COLLECTIONS.USERS, userId);
+      const userDoc = await getDoc(userRef);
+      const currentData = userDoc.exists() ? userDoc.data() : {};
+      const timeInSeconds = parseFloat(time) || 0;
+      const distanceValue = parseFloat(distance) || 0;
 
-      // 1. Atualizar o documento da competição
-      const competitionRef = doc(db, COLLECTIONS.BASIC_COMPETITION, competition);
-      await updateDoc(competitionRef, {
-        times: arrayUnion(timeRecord)
-      });
+      if (type === 'competition') {
+        // 1. Atualizar o documento da competição
+        const competitionRef = doc(db, COLLECTIONS.BASIC_COMPETITION, competition);
+        const timeRecord = {
+          userId,
+          time: timeInSeconds,
+          distance: distanceValue,
+          date: date || new Date().toISOString().split('T')[0],
+          createdAt: new Date().toISOString()
+        };
 
-      // 2. Buscar ou criar documento da prova na subcoleção records do usuário
-      const userRecordsRef = collection(db, COLLECTIONS.USERS, userId, 'records');
-      const competitionDoc = doc(userRecordsRef, competition);
-
-      try {
-        // Tentar atualizar o documento existente
-        await updateDoc(competitionDoc, {
-          times: arrayUnion({
-            time: parseFloat(time) || 0,
-            distance: parseFloat(distance) || 0,
-            date: date || new Date().toISOString().split('T')[0],
-            createdAt: new Date().toISOString()
-          })
+        await updateDoc(competitionRef, {
+          times: arrayUnion(timeRecord)
         });
-      } catch (error) {
-        // Se o documento não existir, criar um novo
-        await setDoc(competitionDoc, {
-          competitionId: competition,
-          competitionName: competitionName,
-          competitionRef: competitionRef,
-          times: [{
-            time: parseFloat(time) || 0,
-            distance: parseFloat(distance) || 0,
-            date: date || new Date().toISOString().split('T')[0],
-            createdAt: new Date().toISOString()
-          }]
+
+        // 2. Atualizar a subcoleção records do usuário
+        const userRecordsRef = collection(db, COLLECTIONS.USERS, userId, 'records');
+        const competitionDoc = doc(userRecordsRef, competition);
+
+        try {
+          await updateDoc(competitionDoc, {
+            times: arrayUnion({
+              time: timeInSeconds,
+              distance: distanceValue,
+              date: date || new Date().toISOString().split('T')[0],
+              createdAt: new Date().toISOString()
+            })
+          });
+        } catch (error) {
+          await setDoc(competitionDoc, {
+            competitionId: competition,
+            competitionName: competitionName,
+            competitionRef: competitionRef,
+            times: [{
+              time: timeInSeconds,
+              distance: distanceValue,
+              date: date || new Date().toISOString().split('T')[0],
+              createdAt: new Date().toISOString()
+            }]
+          });
+        }
+
+        // 3. Atualizar as estatísticas gerais do usuário
+        await updateDoc(userRef, {
+          distance: (currentData.distance || 0) + distanceValue,
+          frequence: (currentData.frequence || 0) + 1,
+          totalTrainingTime: (currentData.totalTrainingTime || 0) + timeInSeconds
+        });
+      } else {
+        // Handle free record - update user's main document
+        await updateDoc(userRef, {
+          distance: (currentData.distance || 0) + distanceValue,
+          frequence: (currentData.frequence || 0) + 1,
+          totalTrainingTime: (currentData.totalTrainingTime || 0) + timeInSeconds
         });
       }
 

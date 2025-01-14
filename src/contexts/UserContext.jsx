@@ -12,18 +12,18 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('UserProvider - Auth User:', authUser);
+    ('UserProvider - Auth User:', authUser);
     let unsubscribeFirestore = null;
 
     const setupUserDataListener = () => {
       if (!authUser?.uid) {
-        console.log('UserProvider - No auth user uid');
+        ('UserProvider - No auth user uid');
         setUser(null);
         setLoading(false);
         return;
       }
 
-      console.log('UserProvider - Setting up Firestore listener for:', authUser.uid);
+      ('UserProvider - Setting up Firestore listener for:', authUser.uid);
       // Inscrever para atualizações do documento do usuário no Firestore
       const userDocRef = doc(db, COLLECTIONS.USERS, authUser.uid);
       unsubscribeFirestore = onSnapshot(
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
         (docSnapshot) => {
           if (docSnapshot.exists()) {
             const userData = docSnapshot.data();
-            console.log('UserProvider - User data from Firestore:', userData);
+            ('UserProvider - User data from Firestore:', userData);
             setUser({
               ...authUser,
               ...userData,
@@ -60,7 +60,7 @@ export const UserProvider = ({ children }) => {
     setupUserDataListener();
 
     return () => {
-      console.log('UserProvider - Cleaning up Firestore listener');
+      ('UserProvider - Cleaning up Firestore listener');
       if (unsubscribeFirestore) {
         unsubscribeFirestore();
       }
@@ -73,7 +73,7 @@ export const UserProvider = ({ children }) => {
     setUser
   };
 
-  console.log('UserProvider - Current context value:', contextValue);
+  ('UserProvider - Current context value:', contextValue);
 
   return (
     <UserContext.Provider value={contextValue}>
