@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser } from 'react-icons/fa';
+import { doc, updateDoc, arrayUnion, collection, addDoc, setDoc } from 'firebase/firestore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import BasicLayout from '../../components/BasicLayout/BasicLayout';
 import NotificationModal from '../../components/Modal/NotificationModal';
 import NewRecordModal from '../../components/Modal/NewRecordModal';
 import { useAuth } from '../../contexts/AuthContext';
 import UserContext from '../../contexts/UserContext';
+import { useFirebase } from '../../contexts/FirebaseContext';
+import { COLLECTIONS } from '../../constants/collections';
 import { calculateLevel, getLevelColor, calculateObjectiveProgress, objectives } from '../../utils/levelSystem';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { user: authUser } = useAuth();
   const { user: userData } = useContext(UserContext);
+  const { db } = useFirebase();
   const [objectivesProgress, setObjectivesProgress] = useState({
     frequency: 0,
     distance: 0,
@@ -97,6 +103,77 @@ const Dashboard = () => {
         <p className="achievement-description">{description}</p>
       </div>
     );
+  };
+
+  const handleNewRecord = async (recordData) => {
+    try {
+      const { competition, competitionName, time, distance, date } = recordData;
+      const userId = userData?.uid || authUser?.uid;
+      
+      if (!competition) {
+        toast.error('Selecione uma competição', {
+          position: "top-right",
+          autoClose: 3000
+        });
+        return;
+      }
+
+      // Criar o objeto do registro do tempo
+      const timeRecord = {
+        userId,
+        time: parseFloat(time) || 0,
+        distance: parseFloat(distance) || 0,
+        date: date || new Date().toISOString().split('T')[0],
+        createdAt: new Date().toISOString()
+      };
+
+      // 1. Atualizar o documento da competição
+      const competitionRef = doc(db, COLLECTIONS.BASIC_COMPETITION, competition);
+      await updateDoc(competitionRef, {
+        times: arrayUnion(timeRecord)
+      });
+
+      // 2. Buscar ou criar documento da prova na subcoleção records do usuário
+      const userRecordsRef = collection(db, COLLECTIONS.USERS, userId, 'records');
+      const competitionDoc = doc(userRecordsRef, competition);
+
+      try {
+        // Tentar atualizar o documento existente
+        await updateDoc(competitionDoc, {
+          times: arrayUnion({
+            time: parseFloat(time) || 0,
+            distance: parseFloat(distance) || 0,
+            date: date || new Date().toISOString().split('T')[0],
+            createdAt: new Date().toISOString()
+          })
+        });
+      } catch (error) {
+        // Se o documento não existir, criar um novo
+        await setDoc(competitionDoc, {
+          competitionId: competition,
+          competitionName: competitionName,
+          competitionRef: competitionRef,
+          times: [{
+            time: parseFloat(time) || 0,
+            distance: parseFloat(distance) || 0,
+            date: date || new Date().toISOString().split('T')[0],
+            createdAt: new Date().toISOString()
+          }]
+        });
+      }
+
+      setIsNewRecordModalOpen(false);
+      toast.success('Marca registrada com sucesso!', {
+        position: "top-right",
+        autoClose: 3000
+      });
+    } catch (error) {
+      console.error('Erro ao salvar novo registro:', error);
+      toast.error('Erro ao salvar registro', {
+        position: "top-right",
+        autoClose: 3000
+      });
+    }
   };
 
   return (
@@ -232,7 +309,9 @@ const Dashboard = () => {
       <NewRecordModal
         isOpen={isNewRecordModalOpen}
         onClose={() => setIsNewRecordModalOpen(false)}
+        onNewRecord={handleNewRecord}
       />
+      <ToastContainer />
     </BasicLayout>
   );
 };
