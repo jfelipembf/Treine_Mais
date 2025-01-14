@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 import Header from '../Header/Header';
 import './BasicLayout.css';
 
 const BasicLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
-  const { logout } = useAuth();
+  const { signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,8 +33,8 @@ const BasicLayout = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      navigate('/login');
+      await signOut();
+      navigate('/login', { replace: true });
     } catch (error) {
       console.error('Error during logout:', error);
     }

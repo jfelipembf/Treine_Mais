@@ -1,7 +1,8 @@
 export const COLLECTIONS = {
   USERS: 'users',
   BASIC_COMPETITION: 'basicCompetition',
-  RECORDS: 'records'
+  RECORDS: 'records',
+  FREE_TRAINING: 'freeTraining'
 };
 
 export const USER_ROLES = {

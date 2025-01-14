@@ -1,46 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LevelCard.css';
+import ShareMenu from '../ShareMenu/ShareMenu';
+import { FaShare } from 'react-icons/fa';
 
-const LevelCard = ({ level, points, pointsToNextLevel }) => {
+const LevelCard = ({ level, points, pointsToNextLevel, achievements = [] }) => {
   const progress = (points / (points + pointsToNextLevel)) * 100;
-  
+  const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+
+  const handleShare = (achievement) => {
+    setSelectedAchievement(achievement);
+    setIsShareMenuOpen(true);
+  };
+
   return (
     <div className="level-card">
       <div className="level-circle">
-        <svg viewBox="0 0 36 36" className="level-progress">
-          <path
-            d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"
-            fill="none"
-            stroke="rgba(255, 255, 255, 0.1)"
-            strokeWidth="3"
-          />
-          <path
-            d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"
-            fill="none"
-            stroke="#4a90e2"
-            strokeWidth="3"
-            strokeDasharray={`${progress}, 100`}
-          />
-        </svg>
-        <div className="level-icon">🏅</div>
+        <div className="level-number">{level}</div>
+        <div className="level-text">Nível</div>
       </div>
-      
-      <h2 className="level-title">Nível {level}</h2>
-      <p className="level-points">{points} PONTOS</p>
-      
-      <div className="level-progress-info">
-        <p>Faltam {pointsToNextLevel} pontos para o próximo nível</p>
-        <div className="level-progress-bar">
-          <div 
-            className="level-progress-fill"
-            style={{ width: `${progress}%` }}
+      <div className="level-progress">
+        <div className="points-info">
+          <div className="current-points">
+            <span className="points-value">{points}</span>
+            <span className="points-label">Pontos</span>
+          </div>
+          <div className="next-level">
+            <span className="points-value">{pointsToNextLevel}</span>
+            <span className="points-label">Para o próximo nível</span>
+          </div>
+        </div>
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{
+              width: `${progress}%`,
+            }}
           ></div>
         </div>
       </div>
+
+      {achievements.length > 0 && (
+        <div className="achievements-section">
+          <h3>Conquistas Desbloqueadas</h3>
+          <div className="achievements-list">
+            {achievements.map((achievement, index) => (
+              <div key={index} className="achievement-item">
+                <span>{achievement.name}</span>
+                <button 
+                  className="share-button"
+                  onClick={() => handleShare(achievement)}
+                  title="Compartilhar conquista"
+                >
+                  <FaShare />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <ShareMenu 
+        isOpen={isShareMenuOpen}
+        onClose={() => setIsShareMenuOpen(false)}
+        achievement={selectedAchievement}
+      />
     </div>
   );
 };

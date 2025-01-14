@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser } from 'react-icons/fa';
+import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser, FaShare, FaWhatsapp, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { doc, updateDoc, arrayUnion, collection, addDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +28,8 @@ const Dashboard = () => {
   const [isNewRecordModalOpen, setIsNewRecordModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [activeTab, setActiveTab] = useState('next');
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Carrega notificações do usuário
   useEffect(() => {
@@ -66,10 +68,27 @@ const Dashboard = () => {
   const distanceProgress = calculateObjectiveProgress('distance', userData?.distance || 0);
   const timeProgress = calculateObjectiveProgress('time', userData?.totalTrainingTime || 0);
 
+  // Calcula pontos totais:
+  // - 1 ponto por km
+  // - 1 ponto por hora
+  // - 1 ponto por dia de treino
+  const calculateTotalPoints = () => {
+    if (!userData) return 0;
+
+    // Pontos por distância (1 ponto por km)
+    const distancePoints = Math.floor((userData.distance || 0) / 1000);
+
+    // Pontos por tempo (1 ponto por hora)
+    const timePoints = Math.floor((userData.totalTrainingTime || 0) / 3600);
+
+    // Pontos por frequência (1 ponto por dia)
+    const frequencyPoints = userData.frequence || 0;
+
+    return distancePoints + timePoints + frequencyPoints;
+  };
+
   // Calcula pontos totais como soma das métricas
-  const totalPoints = (userData?.frequence || 0) + // 1 ponto por presença
-                     Math.floor((userData?.distance || 0) / 1000) + // 1 ponto por km
-                     Math.floor((userData?.totalTrainingTime || 0) / 60); // 1 ponto por hora
+  const totalPoints = calculateTotalPoints();
 
   // Calcula o nível com base nos pontos totais
   const userLevel = calculateLevel(totalPoints);
@@ -222,6 +241,103 @@ const Dashboard = () => {
     }
   };
 
+  const handleShare = (achievement, event) => {
+    event.stopPropagation();
+    setSelectedAchievement(achievement);
+    setIsShareModalOpen(true);
+  };
+
+  const ShareModal = () => {
+    if (!isShareModalOpen || !selectedAchievement) return null;
+
+    const achievementEmoji = selectedAchievement.title.toLowerCase().includes('frequência') ? '🏃‍♂️' :
+                           selectedAchievement.title.toLowerCase().includes('distância') ? '🎯' : '⏱️';
+    
+    const shareText = encodeURIComponent(
+      `${achievementEmoji} Nova Conquista Desbloqueada no Treine+! ${achievementEmoji}\n\n` +
+      `🏆 ${selectedAchievement.title}\n` +
+      `📝 ${selectedAchievement.description}\n\n` +
+      `Venha treinar comigo! 💪`
+    );
+
+    const handleModalClick = (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        setIsShareModalOpen(false);
+      }
+    };
+
+    return (
+      <div className="modal-overlay" onClick={handleModalClick}>
+        <div className="share-modal">
+          <button 
+            className="close-button"
+            onClick={() => setIsShareModalOpen(false)}
+            aria-label="Fechar"
+          >
+            
+          </button>
+          <h3 className="share-modal-title">Compartilhar Conquista</h3>
+          <div className="share-modal-content">
+            <div className="achievement-preview">
+              <div className="achievement-icon-large">
+                {selectedAchievement.icon}
+              </div>
+              <div className="achievement-details">
+                <h4>{selectedAchievement.title}</h4>
+                <p>{selectedAchievement.description}</p>
+              </div>
+            </div>
+            <div className="share-options">
+              <a 
+                href={`whatsapp://send?text=${shareText}`}
+                className="share-option whatsapp"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsShareModalOpen(false)}
+              >
+                <FaWhatsapp />
+                <span>Compartilhar no WhatsApp</span>
+              </a>
+              
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=${shareText}`}
+                className="share-option facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsShareModalOpen(false)}
+              >
+                <FaFacebook />
+                <span>Compartilhar no Facebook</span>
+              </a>
+              
+              <a 
+                href={`https://twitter.com/intent/tweet?text=${shareText}`}
+                className="share-option twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsShareModalOpen(false)}
+              >
+                <FaTwitter />
+                <span>Compartilhar no Twitter</span>
+              </a>
+
+              <a 
+                href={`https://www.instagram.com/share?url=${window.location.href}`}
+                className="share-option instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsShareModalOpen(false)}
+              >
+                <FaInstagram />
+                <span>Compartilhar no Instagram</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <BasicLayout>
       <div className="dashboard-header">
@@ -308,6 +424,32 @@ const Dashboard = () => {
               <p className="points-to-next">
                 Faltam {userLevel.pointsToNext} pontos para {userLevel.nextLevel}
               </p>
+            </div>
+          </div>
+
+          <div className="achievements-section">
+  
+            <div className="achievements-list">
+              {userData?.achievements?.map((achievement, index) => (
+                <div key={index} className="achievement-item unlocked">
+                  <div className="achievement-icon-wrapper">
+                    <div className="achievement-icon">{achievement.icon}</div>
+                  </div>
+                  <div className="achievement-info">
+                    <div className="achievement-header">
+                      <span className="achievement-name">{achievement.title}</span>
+                    </div>
+                    <div className="achievement-description">{achievement.description}</div>
+                  </div>
+                  <button 
+                    className="share-button"
+                    onClick={(e) => handleShare(achievement, e)}
+                    title="Compartilhar conquista"
+                  >
+                    <FaShare />
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -405,17 +547,22 @@ const Dashboard = () => {
                   <div className="achievements-grid">
                     {calculateDashboardAchievements(userData).map((achievement) => (
                       <div key={achievement.id} className="achievement-item unlocked">
-                        <div className="achievement-icon-wrapper completed">
+                        <div className="achievement-icon-wrapper">
                           <div className="achievement-icon">{achievement.icon}</div>
-                          <div className="achievement-check">✓</div>
                         </div>
                         <div className="achievement-info">
                           <div className="achievement-header">
                             <span className="achievement-name">{achievement.title}</span>
-                            <span className="achievement-date">Concluído</span>
                           </div>
                           <div className="achievement-description">{achievement.description}</div>
                         </div>
+                        <button 
+                          className="share-button"
+                          onClick={(e) => handleShare(achievement, e)}
+                          title="Compartilhar conquista"
+                        >
+                          <FaShare />
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -423,46 +570,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="achievements-section">
-            <div className="achievements-grid">
-              {frequencyProgress && (
-                <AchievementCard
-                  title="Frequência"
-                  progress={frequencyProgress.progress}
-                  totalPoints={frequencyProgress.totalPoints}
-                  icon={frequencyProgress.icon}
-                  description={frequencyProgress.description}
-                  fractionProgress={frequencyProgress.fractionProgress}
-                  currentValue={userData?.frequence || 0}
-                />
-              )}
-
-              {distanceProgress && (
-                <AchievementCard
-                  title="Distância"
-                  progress={distanceProgress.progress}
-                  totalPoints={distanceProgress.totalPoints}
-                  icon={distanceProgress.icon}
-                  description={distanceProgress.description}
-                  fractionProgress={distanceProgress.fractionProgress}
-                  currentValue={userData?.distance || 0}
-                />
-              )}
-
-              {timeProgress && (
-                <AchievementCard
-                  title="Tempo"
-                  progress={timeProgress.progress}
-                  totalPoints={timeProgress.totalPoints}
-                  icon={timeProgress.icon}
-                  description={timeProgress.description}
-                  fractionProgress={timeProgress.fractionProgress}
-                  currentValue={userData?.totalTrainingTime || 0}
-                />
-              )}
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -478,6 +585,7 @@ const Dashboard = () => {
         onNewRecord={handleNewRecord}
       />
       <ToastContainer />
+      <ShareModal />
     </BasicLayout>
   );
 };

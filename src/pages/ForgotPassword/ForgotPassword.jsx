@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEnvelope } from 'react-icons/fa';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../contexts/AuthContext';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {

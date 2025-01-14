@@ -131,20 +131,8 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="record-form">
-          <div className="form-group">
-            <label htmlFor="date">Data</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="form-group record-type-selector">
-            <label>Tipo de Marca</label>
-            <div className="record-type-buttons">
+          <div className="record-type-selector">
+            <div className={`record-type-buttons ${recordType === 'free' ? 'free-active' : ''}`}>
               <button
                 type="button"
                 className={`type-button ${recordType === 'competition' ? 'active' : ''}`}
@@ -162,33 +150,9 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="time">Tempo:</label>
-            <input
-              type="text"
-              id="time"
-              name="time"
-              value={formData.time}
-              onChange={handleInputChange}
-              placeholder="00:00:00"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="distance">Distância (metros):</label>
-            <input
-              type="number"
-              id="distance"
-              name="distance"
-              value={formData.distance}
-              onChange={handleInputChange}
-              placeholder="Digite a distância"
-            />
-          </div>
-
           {recordType === 'competition' && (
             <div className="form-group">
-              <label htmlFor="competition">Competição:</label>
+              <label htmlFor="competition">Competição</label>
               <select
                 id="competition"
                 name="competition"
@@ -206,10 +170,41 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
           )}
 
           <div className="form-group">
-            <button type="submit" className="submit-button">
-              Salvar
-            </button>
+            <label htmlFor="date">Data</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+            />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="time">Tempo</label>
+            <input
+              type="text"
+              id="time"
+              name="time"
+              value={formData.time}
+              onChange={handleInputChange}
+              placeholder="00:00:00"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="distance">Distância (metros)</label>
+            <input
+              type="number"
+              id="distance"
+              name="distance"
+              value={formData.distance}
+              onChange={handleInputChange}
+              placeholder="Digite a distância"
+            />
+          </div>
+
+          <button type="submit">Salvar</button>
         </form>
       </div>
     </div>

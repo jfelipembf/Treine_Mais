@@ -12,6 +12,8 @@ import Achievements from './pages/Achievements/Achievements';
 import Exercises from './pages/Exercises/Exercises';
 import Progress from './pages/Progress/Progress';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const App = () => {
@@ -24,41 +26,32 @@ const App = () => {
         <AuthProvider>
           <UserProvider>
             <Routes>
+              <Route path="/" element={<Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              
-              <Route path="/dashboard" element={
+              <Route path="/dashboard/*" element={
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
               } />
-              
-              <Route path="/achievements" element={
-                <PrivateRoute>
-                  <Achievements />
-                </PrivateRoute>
-              } />
-              
-              <Route path="/exercises" element={
-                <PrivateRoute>
-                  <Exercises />
-                </PrivateRoute>
-              } />
-              
               <Route path="/profile" element={
                 <PrivateRoute>
                   <Profile />
                 </PrivateRoute>
               } />
-
               <Route path="/progress" element={
                 <PrivateRoute>
                   <Progress />
                 </PrivateRoute>
               } />
+              <Route path="/exercises" element={
+                <PrivateRoute>
+                  <Exercises />
+                </PrivateRoute>
+              } />
             </Routes>
+            <ToastContainer />
           </UserProvider>
         </AuthProvider>
       </FirebaseProvider>
