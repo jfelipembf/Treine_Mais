@@ -10,7 +10,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import UserContext from '../../contexts/UserContext';
 import { useFirebase } from '../../contexts/FirebaseContext';
 import { COLLECTIONS } from '../../constants/collections';
-import { calculateLevel, getLevelColor, calculateObjectiveProgress, objectives } from '../../utils/levelSystem';
+import { calculateLevel, getLevelColor, calculateObjectiveProgress, objectives, calculateDashboardAchievements, getNextDashboardAchievements } from '../../utils/levelSystem';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [isNewRecordModalOpen, setIsNewRecordModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [activeTab, setActiveTab] = useState('next');
 
   // Carrega notificações do usuário
   useEffect(() => {
@@ -64,6 +65,14 @@ const Dashboard = () => {
   const frequencyProgress = calculateObjectiveProgress('frequency', userData?.frequence || 0);
   const distanceProgress = calculateObjectiveProgress('distance', userData?.distance || 0);
   const timeProgress = calculateObjectiveProgress('time', userData?.totalTrainingTime || 0);
+
+  // Calcula pontos totais como soma das métricas
+  const totalPoints = (userData?.frequence || 0) + // 1 ponto por presença
+                     Math.floor((userData?.distance || 0) / 1000) + // 1 ponto por km
+                     Math.floor((userData?.totalTrainingTime || 0) / 60); // 1 ponto por hora
+
+  // Calcula o nível com base nos pontos totais
+  const userLevel = calculateLevel(totalPoints);
 
   // Efeito para verificar e atualizar pontos quando houver progresso
   useEffect(() => {
@@ -272,33 +281,150 @@ const Dashboard = () => {
                     strokeWidth="3"
                     strokeLinecap="round"
                     className="circle"
-                    strokeDasharray={`${calculateLevel(userData.points || 0).progress}, 100`}
+                    strokeDasharray={`${userLevel.progress}, 100`}
                   />
                 </svg>
                 <div className="level-icon-container">
-                  <span className="level-icon">{calculateLevel(userData.points || 0).currentIcon}</span>
-                  <span className="progress-value">{calculateLevel(userData.points || 0).progress}%</span>
+                  <span className="level-icon">{userLevel.currentIcon}</span>
+                  <div className="progress-details">
+                    <span className="progress-value">{totalPoints}</span>
+                    <span className="progress-separator">/</span>
+                    <span className="next-level-points">{totalPoints + userLevel.pointsToNext}</span>
+                  </div>
                 </div>
               </div>
               <div className="level-details">
-                <h2 className="level-title">{calculateLevel(userData.points || 0).currentLevel}</h2>
-                <p className="points-value">{userData.points || 0} PONTOS</p>
+                <h2 className="level-title">{userLevel.currentLevel}</h2>
+                <p className="points-value">PONTOS TOTAIS</p>
               </div>
             </div>
             <div className="level-progress">
               <div className="progress-bar">
                 <div 
                   className="progress-fill" 
-                  style={{width: `${calculateLevel(userData.points || 0).progress}%`}}
+                  style={{width: `${userLevel.progress}%`}}
                 ></div>
               </div>
               <p className="points-to-next">
-                Faltam {calculateLevel(userData.points || 0).pointsToNext} pontos para o próximo nível
+                Faltam {userLevel.pointsToNext} pontos para {userLevel.nextLevel}
               </p>
             </div>
           </div>
 
-          <div className="achievements-section">
+          {/* Card de Métricas */}
+          <div className="px-4 mt-10 mb-10">
+            <div className="metrics-card">
+              <div className="metric-info">
+                <div className="metric-content">
+                  <span className="metric-value">{userData?.frequence || 0}</span>
+                  <span className="metric-unit">presenças</span>
+                </div>
+                <span className="metric-title">Frequência</span>
+              </div>
+
+              <div className="metric-info">
+                <div className="metric-content">
+                  <span className="metric-value">{((userData?.distance || 0) / 1000).toFixed(1)}</span>
+                  <span className="metric-unit">km</span>
+                </div>
+                <span className="metric-title">Distância</span>
+              </div>
+
+              <div className="metric-info">
+                <div className="metric-content">
+                  <span className="metric-value">
+                    {Math.floor((userData?.totalTrainingTime || 0) / 60)}
+                  </span>
+                  <span className="metric-unit">min</span>
+                </div>
+                <span className="metric-title">Tempo Total</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card de Conquistas */}
+          <div className="px-4 mt-6">
+            <div className="achievements-card">
+              <div className="achievements-header">
+                <h3 className="achievements-title">Conquistas</h3>
+                <div className="achievements-summary">
+                  <span className="achievements-count">
+                    {calculateDashboardAchievements(userData).length} Conquistas
+                  </span>
+                </div>
+              </div>
+
+              <div className="achievements-tabs">
+                <button 
+                  className={`achievement-tab ${activeTab === 'next' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('next')}
+                >
+                  Próximas
+                </button>
+                <button 
+                  className={`achievement-tab ${activeTab === 'unlocked' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('unlocked')}
+                >
+                  Desbloqueadas
+                </button>
+              </div>
+
+              <div className="achievements-content">
+                {activeTab === 'next' ? (
+                  // Próximas Conquistas
+                  <div className="achievements-grid">
+                    {getNextDashboardAchievements(userData).map((achievement) => (
+                      <div key={achievement.id} className="achievement-item">
+                        <div className="achievement-icon-wrapper">
+                          <div className="achievement-icon">{achievement.icon}</div>
+                          <div 
+                            className="achievement-progress-ring"
+                            style={{
+                              background: `conic-gradient(#FFD700 ${achievement.progress * 3.6}deg, rgba(255,255,255,0.1) 0deg)`
+                            }}
+                          />
+                        </div>
+                        <div className="achievement-info">
+                          <div className="achievement-header">
+                            <span className="achievement-name">{achievement.title}</span>
+                            <span className="achievement-progress">{Math.round(achievement.progress)}%</span>
+                          </div>
+                          <div className="achievement-description">{achievement.description}</div>
+                          <div className="achievement-bar">
+                            <div 
+                              className="achievement-progress-fill"
+                              style={{ width: `${achievement.progress}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  // Conquistas Desbloqueadas
+                  <div className="achievements-grid">
+                    {calculateDashboardAchievements(userData).map((achievement) => (
+                      <div key={achievement.id} className="achievement-item unlocked">
+                        <div className="achievement-icon-wrapper completed">
+                          <div className="achievement-icon">{achievement.icon}</div>
+                          <div className="achievement-check">✓</div>
+                        </div>
+                        <div className="achievement-info">
+                          <div className="achievement-header">
+                            <span className="achievement-name">{achievement.title}</span>
+                            <span className="achievement-date">Concluído</span>
+                          </div>
+                          <div className="achievement-description">{achievement.description}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="achievements-section">
             <div className="achievements-grid">
               {frequencyProgress && (
                 <AchievementCard
@@ -336,7 +462,7 @@ const Dashboard = () => {
                 />
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       )}
 
