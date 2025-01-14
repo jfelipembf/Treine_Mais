@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ondas de água -->
+  <path d="M10 20C15 15 20 25 25 20C30 15 35 25 40 20" stroke="#4A90E2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M45 20C50 15 55 25 60 20C65 15 70 25 75 20" stroke="#4A90E2" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Nadador estilizado -->
+  <circle cx="90" cy="20" r="8" fill="#4A90E2"/>
+  <path d="M85 20L95 20M90 15L90 25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>

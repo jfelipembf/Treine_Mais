@@ -1,0 +1,47 @@
+.card-metric {
+  text-align: center;
+}
+
+.card-metric-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-metric-icon {
+  font-size: 24px;
+  color: #8c8c8c;
+}
+
+.card-metric-value {
+  font-size: 36px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-metric-label {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+/* Tipos */
+.card-metric.primary .card-metric-value {
+  color: #1890ff;
+}
+
+.card-metric.success .card-metric-value {
+  color: #52c41a;
+}
+
+.card-metric.warning .card-metric-value {
+  color: #faad14;
+}
+
+.card-metric.danger .card-metric-value {
+  color: #ff4d4f;
+}
+
+.card-metric.info .card-metric-value {
+  color: #13c2c2;
+}

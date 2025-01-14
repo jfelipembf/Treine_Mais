@@ -1,0 +1,44 @@
+.custom-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.custom-input:hover {
+  border-color: #40a9ff;
+}
+
+.custom-input:focus {
+  border-color: #40a9ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.custom-input::placeholder {
+  color: #bfbfbf;
+}
+
+.custom-input[type="password"] {
+  letter-spacing: 4px;
+}
+
+.custom-input[disabled] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.custom-input.error {
+  border-color: #ff4d4f;
+}
+
+.custom-input.error:hover,
+.custom-input.error:focus {
+  border-color: #ff7875;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}

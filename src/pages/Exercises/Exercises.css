@@ -1,0 +1,487 @@
+.workout-page {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.workout-header {
+  margin-bottom: 32px;
+}
+
+.workout-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.workout-subtitle {
+  color: #a0aec0;
+  font-size: 16px;
+  margin: 0;
+}
+
+.date-selector {
+  background: #0f1115;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.date-selector h2 {
+  font-size: 18px;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+}
+
+.date-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 200px;
+}
+
+.date-picker-input {
+  width: 100%;
+}
+
+.custom-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-input input {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  background: #1a1d23;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.custom-input input:focus {
+  outline: none;
+  border-color: #3e54ac;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 12px;
+  color: #3e54ac;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.workout-info {
+  background: #0f1115;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.workout-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workout-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.workout-title h2 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.workout-type {
+  color: #3e54ac;
+  font-size: 14px;
+}
+
+.workout-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a0aec0;
+  font-size: 14px;
+}
+
+.workout-meta span:nth-child(even) {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+}
+
+.workout-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.stat-item {
+  text-align: center;
+  min-width: 80px;
+}
+
+.stat-value {
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  display: block;
+  color: #a0aec0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+
+.info-label {
+  color: #a0aec0;
+  font-size: 14px;
+}
+
+.info-value {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.exercises-list {
+  margin-bottom: 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.exercise-card {
+  background: #0f1115;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.exercise-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #3e54ac;
+}
+
+.exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  border-color: rgba(62, 84, 172, 0.4);
+}
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.exercise-number {
+  background: #3e54ac;
+  color: white;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.exercise-header h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.exercise-meta {
+  display: flex;
+  gap: 12px;
+  color: #a0aec0;
+  font-size: 14px;
+}
+
+.exercise-meta span {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.exercise-header input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid #3e54ac;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.exercise-header input[type="checkbox"]:checked {
+  background: #3e54ac;
+}
+
+.exercise-header input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.exercise-header input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.exercise-details {
+  padding-left: 40px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-value {
+  color: #a0aec0;
+  font-size: 14px;
+  flex: 1;
+}
+
+.material-tag {
+  background: rgba(62, 84, 172, 0.2);
+  color: #3e54ac;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.finish-workout-button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #3e54ac;
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(62, 84, 172, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.finish-workout-button:hover {
+  background: #4a65c9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(62, 84, 172, 0.3);
+}
+
+.completed-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(62, 84, 172, 0.1);
+  color: #3e54ac;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-left: 16px;
+}
+
+.completed-badge svg {
+  font-size: 14px;
+}
+
+.no-training-message {
+  text-align: center;
+  padding: 40px;
+  background: #1a1d23;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  margin-top: 24px;
+}
+
+/* Estilos do DatePicker */
+.react-datepicker {
+  font-family: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: #1a1d23;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.react-datepicker__header {
+  background-color: #0f1115;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding-top: 12px;
+}
+
+.react-datepicker__current-month {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.react-datepicker__day-name {
+  color: #ffffff;
+  opacity: 0.7;
+}
+
+.react-datepicker__day {
+  color: #ffffff;
+  border-radius: 4px;
+  margin: 2px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(62, 84, 172, 0.3);
+}
+
+.react-datepicker__day--selected {
+  background-color: #3e54ac !important;
+  color: white;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: rgba(62, 84, 172, 0.4);
+}
+
+.react-datepicker__day--disabled {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.react-datepicker__triangle {
+  display: none;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #ffffff;
+}
+
+.react-datepicker__navigation:hover *::before {
+  border-color: #3e54ac;
+}
+
+@media (max-width: 768px) {
+  .workout-page {
+    padding: 16px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exercise-header {
+    flex-wrap: wrap;
+  }
+
+  .exercise-meta {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .exercise-details {
+    padding-left: 0;
+    margin-top: 12px;
+  }
+
+  .workout-info-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .workout-stats {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .stat-item {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .workout-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .workout-meta {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .workout-meta span:nth-child(even) {
+    display: none;
+  }
+
+  .completed-badge {
+    margin-left: 0;
+    margin-top: 8px;
+    width: fit-content;
+  }
+}

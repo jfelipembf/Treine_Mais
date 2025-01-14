@@ -1,0 +1,129 @@
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+}
+
+.custom-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Primary Button */
+.custom-button.primary {
+  background: linear-gradient(45deg, #4a90e2, #63b3ed);
+  color: white;
+}
+
+.custom-button.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.custom-button.primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Default Button */
+.custom-button.default {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+}
+
+.custom-button.default:hover:not(:disabled) {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+/* Dashed Button */
+.custom-button.dashed {
+  background: transparent;
+  border: 1px dashed #e2e8f0;
+  color: #4a5568;
+}
+
+.custom-button.dashed:hover:not(:disabled) {
+  border-color: #4a90e2;
+  color: #4a90e2;
+}
+
+/* Link Button */
+.custom-button.link {
+  background: transparent;
+  color: #4a90e2;
+  padding: 4px 8px;
+}
+
+.custom-button.link:hover:not(:disabled) {
+  color: #63b3ed;
+  text-decoration: underline;
+}
+
+/* Text Button */
+.custom-button.text {
+  background: transparent;
+  color: #4a5568;
+  padding: 4px 8px;
+}
+
+.custom-button.text:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Size variations can be added here */
+.custom-button.large {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.custom-button.small {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+/* Icon support */
+.custom-button .icon {
+  margin-right: 8px;
+  font-size: 1.1em;
+}
+
+.custom-button.icon-only {
+  padding: 8px;
+}
+
+/* Loading state */
+.custom-button.loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.custom-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 50%;
+  border-color: #fff #fff #fff transparent;
+  animation: button-loading 0.8s linear infinite;
+}
+
+@keyframes button-loading {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,156 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0f1012;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Layout principal */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 320px;
+  min-height: 100vh;
+  background: #0f1012;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.main-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+/* Variáveis globais */
+:root {
+  --primary-color: #1890ff;
+  --primary-hover: #40a9ff;
+  --success-color: #52c41a;
+  --warning-color: #faad14;
+  --error-color: #ff4d4f;
+  --info-color: #13c2c2;
+  --heading-color: #ffffff;
+  --text-color: #cccccc;
+  --disabled-color: rgba(255, 255, 255, 0.25);
+  --border-color: #333;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos de layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Estilos de tipografia */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: 1em;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+/* Estilos de cartões */
+.card {
+  background: #1a1d23;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+/* Estilos de formulário */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--heading-color);
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: all 0.3s;
+  background: #1a1d23;
+  color: #ffffff;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Estilos de botões */
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+}
