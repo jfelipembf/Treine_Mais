@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { useFirebase } from '../../contexts/FirebaseContext';
 import { useUser } from '../../contexts/UserContext';
 import { COLLECTIONS } from '../../constants/collections';
@@ -148,38 +148,42 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
               <button
                 type="button"
                 className={`type-button ${recordType === 'competition' ? 'active' : ''}`}
-                onClick={() => {
-                  console.log('Mudando para competição');
-                  setRecordType('competition');
-                  console.log('Tipo atual:', recordType);
-                  console.log('Form data:', formData);
-                }}
+                onClick={() => setRecordType('competition')}
               >
-                Competições
+                Competição
               </button>
               <button
                 type="button"
                 className={`type-button ${recordType === 'free' ? 'active' : ''}`}
-                onClick={() => {
-                  console.log('Mudando para marca livre');
-                  setRecordType('free');
-                  console.log('Tipo antes de limpar:', recordType);
-                  setFormData(prev => {
-                    console.log('Form data antes:', prev);
-                    const newData = {
-                      ...prev,
-                      competition: '',
-                      competitionName: ''
-                    };
-                    console.log('Form data depois:', newData);
-                    return newData;
-                  });
-                  console.log('Tipo depois de limpar:', recordType);
-                }}
+                onClick={() => setRecordType('free')}
               >
-                Marca Livre
+                Livre
               </button>
             </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="time">Tempo:</label>
+            <input
+              type="text"
+              id="time"
+              name="time"
+              value={formData.time}
+              onChange={handleInputChange}
+              placeholder="00:00:00"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="distance">Distância (metros):</label>
+            <input
+              type="number"
+              id="distance"
+              name="distance"
+              value={formData.distance}
+              onChange={handleInputChange}
+              placeholder="Digite a distância"
+            />
           </div>
 
           {recordType === 'competition' && (
@@ -202,32 +206,10 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
           )}
 
           <div className="form-group">
-            <label htmlFor="distance">Distância (metros):</label>
-            <input
-              type="number"
-              id="distance"
-              name="distance"
-              value={formData.distance}
-              onChange={handleInputChange}
-              placeholder="Digite a distância"
-            />
+            <button type="submit" className="submit-button">
+              Salvar
+            </button>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="time">Tempo:</label>
-            <input
-              type="text"
-              id="time"
-              name="time"
-              value={formData.time}
-              onChange={handleInputChange}
-              placeholder="00:00:00"
-            />
-          </div>
-
-          <button type="submit" className="submit-button">
-            Salvar
-          </button>
         </form>
       </div>
     </div>

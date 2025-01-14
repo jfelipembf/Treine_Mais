@@ -396,171 +396,113 @@
 }
 
 .achievements-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 0px;
+  margin-left: -5%;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .achievement-card {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
   background: #1a1d23;
   border-radius: 15px;
   padding: 20px;
-  color: white;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  min-height: 140px;
-}
-
-.achievement-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--start-color, #FF5733) 0%, var(--end-color, #FF8C33) 100%);
-}
-
-.achievement-card.frequency::before {
-  --start-color: #FF5733;
-  --end-color: #FF8C33;
-}
-
-.achievement-card.distance::before {
-  --start-color: #33FF57;
-  --end-color: #33FF8C;
-}
-
-.achievement-card.time::before {
-  --start-color: #3357FF;
-  --end-color: #338CFF;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 140px;
+  width: 100%;
+  color: white;
 }
 
 .achievement-header {
   display: flex;
+  align-items: center;
   gap: 15px;
-  margin-bottom: 15px;
 }
 
-.achievement-icon-wrapper {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+.achievement-icon {
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
-.achievement-icon-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-.achievement-title {
+.achievement-info {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
-.achievement-title h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 5px;
+.achievement-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
   color: white;
+  font-weight: 600;
+}
+
+.points-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.current-value, .next-value {
+  font-weight: 500;
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .total-points {
-  font-size: 0.9rem;
+  margin-left: auto;
   color: #4CAF50;
   font-weight: 600;
 }
 
-.level-badge {
-  align-self: flex-start;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.achievement-description {
-  color: #666;
-  font-size: 0.9rem;
-  margin: 8px 0;
-}
-
 .achievement-progress {
-  margin-top: auto;
-}
-
-.achievement-card .progress-bar {
-  width: 100%;
-  height: 10px;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 10px 0;
-}
-
-.achievement-card .progress {
-  height: 100%;
-  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
-  border-radius: 5px;
-}
-
-.achievement-card .progress.completed {
-  background-color: #4CAF50 !important;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-}
-
-.achievement-card .progress-text {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.achievement-card .level-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  transition: background-color 0.3s ease-in-out;
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.achievement-card .level-badge.completed {
-  background-color: #4CAF50 !important;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-  animation: pulse 2s infinite;
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  border-radius: 3px;
+  transition: width 0.3s ease;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+.progress-text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .stats-container {
