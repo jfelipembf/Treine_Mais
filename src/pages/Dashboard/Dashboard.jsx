@@ -84,23 +84,39 @@ const Dashboard = () => {
     }
   }, [frequencyProgress, distanceProgress, timeProgress]);
 
-  const AchievementCard = ({ title, progress, totalPoints, icon, description, fractionProgress }) => {
+  const AchievementCard = ({ title, progress, totalPoints, icon, description, fractionProgress, currentValue }) => {
+    const getNextObjective = () => {
+      const type = title.toLowerCase().includes('frequência') ? 'frequency' : 
+                  title.toLowerCase().includes('distância') ? 'distance' : 'time';
+      const baseTarget = objectives[type].baseTarget;
+      const currentLevel = Math.floor(currentValue / baseTarget);
+      const nextTarget = (currentLevel + 1) * baseTarget;
+      return nextTarget;
+    };
+
+    const nextObjective = getNextObjective();
+
     return (
       <div className="achievement-card">
-        <div className="achievement-title">
+        <div className="achievement-header">
           <span className="achievement-icon">{icon}</span>
-          <h3>{title}</h3>
+          <div className="achievement-info">
+            <h3>{title}</h3>
+            <div className="points-info">
+              <span className="current-value">{currentValue}</span>
+              <span className="separator">/</span>
+              <span className="next-value">{nextObjective}</span>
+              <span className="total-points">+{totalPoints} pontos</span>
+            </div>
+          </div>
         </div>
+
         <div className="achievement-progress">
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }}></div>
           </div>
           <div className="progress-text">{fractionProgress}</div>
         </div>
-        <div className="achievement-points">
-          <span className="total-points">+{totalPoints} pontos</span>
-        </div>
-        <p className="achievement-description">{description}</p>
       </div>
     );
   };
@@ -271,6 +287,7 @@ const Dashboard = () => {
                   icon={frequencyProgress.icon}
                   description={frequencyProgress.description}
                   fractionProgress={frequencyProgress.fractionProgress}
+                  currentValue={userData?.frequence || 0}
                 />
               )}
 
@@ -282,6 +299,7 @@ const Dashboard = () => {
                   icon={distanceProgress.icon}
                   description={distanceProgress.description}
                   fractionProgress={distanceProgress.fractionProgress}
+                  currentValue={userData?.distance || 0}
                 />
               )}
 
@@ -293,6 +311,7 @@ const Dashboard = () => {
                   icon={timeProgress.icon}
                   description={timeProgress.description}
                   fractionProgress={timeProgress.fractionProgress}
+                  currentValue={userData?.totalTrainingTime || 0}
                 />
               )}
             </div>

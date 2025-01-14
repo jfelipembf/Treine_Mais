@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { useFirebase } from '../../contexts/FirebaseContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { COLLECTIONS } from '../../constants/collections';
 import './NewRecordModal.css';
 
 const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
   const { db } = useFirebase();
+  const { currentUser } = useAuth();
   const [competitions, setCompetitions] = useState([]);
+  const [selectedType, setSelectedType] = useState('competition'); // 'competition' ou 'free'
   const [formData, setFormData] = useState({
     date: '',
     competition: '',
@@ -61,17 +64,46 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Enviando dados:', formData);
-    onNewRecord(formData);
-    setFormData({
-      date: '',
-      competition: '',
-      competitionName: '',
-      time: '',
-      distance: ''
-    });
+    
+    try {
+      if (selectedType === 'free') {
+        // Atualizar o documento do usuário com a nova marca
+        const userRef = doc(db, COLLECTIONS.USERS, currentUser.uid);
+        
+        // Primeiro, vamos obter os valores atuais
+        const userDoc = await getDoc(userRef);
+        const currentData = userDoc.data();
+        
+        // Somar os novos valores aos existentes
+        const newTime = (currentData.time || 0) + Number(formData.time);
+        const newDistance = (currentData.distance || 0) + Number(formData.distance);
+        
+        // Atualizar com os valores somados
+        await updateDoc(userRef, {
+          time: newTime,
+          distance: newDistance
+        });
+      } else {
+        // Enviar marca de competição normalmente
+        onNewRecord(formData);
+      }
+
+      // Limpar formulário
+      setFormData({
+        date: '',
+        competition: '',
+        competitionName: '',
+        time: '',
+        distance: ''
+      });
+
+      onClose();
+    } catch (error) {
+      console.error('Erro ao salvar marca:', error);
+    }
   };
 
   if (!isOpen) return null;
@@ -98,22 +130,41 @@ const NewRecordModal = ({ isOpen, onClose, onNewRecord }) => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="competition">Competição</label>
-            <select
-              id="competition"
-              name="competition"
-              value={formData.competition}
-              onChange={handleChange}
+          <div className="type-selector">
+            <button
+              type="button"
+              className={`type-button ${selectedType === 'competition' ? 'active' : ''}`}
+              onClick={() => setSelectedType('competition')}
             >
-              <option value="">Selecione uma competição</option>
-              {competitions.map((comp) => (
-                <option key={comp.id} value={comp.id}>
-                  {comp.name}
-                </option>
-              ))}
-            </select>
+              Competição
+            </button>
+            <button
+              type="button"
+              className={`type-button ${selectedType === 'free' ? 'active' : ''}`}
+              onClick={() => setSelectedType('free')}
+            >
+              Marca Livre
+            </button>
           </div>
+
+          {selectedType === 'competition' && (
+            <div className="form-group">
+              <label htmlFor="competition">Competição</label>
+              <select
+                id="competition"
+                name="competition"
+                value={formData.competition}
+                onChange={handleChange}
+              >
+                <option value="">Selecione uma competição</option>
+                {competitions.map((comp) => (
+                  <option key={comp.id} value={comp.id}>
+                    {comp.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="time">Tempo (em minutos)</label>
