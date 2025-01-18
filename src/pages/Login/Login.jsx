@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/images/logo.png';
 import './Login.css';
 
 const Login = () => {
@@ -48,7 +49,8 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-header">
-          <h1>Login</h1>
+          <img src={logo} alt="Logo" className="auth-logo" />
+          <h2>Login</h2>
           <p>Entre com suas credenciais</p>
         </div>
         

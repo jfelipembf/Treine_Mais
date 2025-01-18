@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEnvelope } from 'react-icons/fa';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from "../../contexts/AuthContext";
+import logo from '../../assets/images/logo.png';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -27,7 +28,8 @@ const ForgotPassword = () => {
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-header">
-          <h1>Recuperar Senha</h1>
+          <img src={logo} alt="Logo" className="auth-logo" />
+          <h2>Recuperar Senha</h2>
           <p>Digite seu email para receber o link de recuperação</p>
         </div>
         

@@ -11,6 +11,7 @@ import Profile from './pages/Profile/Profile';
 import Achievements from './pages/Achievements/Achievements';
 import Exercises from './pages/Exercises/Exercises';
 import Progress from './pages/Progress/Progress';
+import MyCompetitions from './pages/MyCompetitions/MyCompetitions';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,6 +49,16 @@ const App = () => {
               <Route path="/exercises" element={
                 <PrivateRoute>
                   <Exercises />
+                </PrivateRoute>
+              } />
+              <Route path="/my-competitions" element={
+                <PrivateRoute>
+                  <MyCompetitions />
+                </PrivateRoute>
+              } />
+              <Route path="/achievements" element={
+                <PrivateRoute>
+                  <Achievements />
                 </PrivateRoute>
               } />
             </Routes>

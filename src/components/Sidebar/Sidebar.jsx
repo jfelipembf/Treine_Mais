@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaSwimmer, FaChartLine, FaSignOutAlt, FaUser, FaTimes } from 'react-icons/fa';
+import { FaHome, FaSwimmer, FaChartLine, FaSignOutAlt, FaUser, FaTimes, FaTrophy } from 'react-icons/fa';
 import './Sidebar.css';
 import UserContext from '../../contexts/UserContext';
 
@@ -13,6 +13,7 @@ const Sidebar = ({ isOpen, onClose, onLogout }) => {
     { path: '/dashboard', icon: FaHome, text: 'Dashboard' },
     { path: '/progress', icon: FaChartLine, text: 'Progresso' },
     { path: '/exercises', icon: FaSwimmer, text: 'Exercícios' },
+    { path: '/my-competitions', icon: FaTrophy, text: 'My Competitions' },
     { path: '/profile', icon: FaUser, text: 'Perfil' },
   ];
 

@@ -74,24 +74,24 @@ export const getLevelColor = (levelName) => {
 
 // Sistema de objetivos
 export const objectives = {
-  frequency: { 
+  frequency: {
     baseTarget: 1, // 1 presença = 1 ponto
-    points: 1, 
-    icon: '🔥', 
+    points: 1,
+    icon: '🔥',
     description: 'Ganhe 1 ponto por presença!',
     levelIncrease: 1
   },
-  distance: { 
+  distance: {
     baseTarget: 1000, // 1km (1000m) = 1 ponto
-    points: 1, 
-    icon: '🏃', 
+    points: 1,
+    icon: '🏃',
     description: 'Ganhe 1 ponto por km percorrido!',
     levelIncrease: 1000
   },
-  time: { 
+  time: {
     baseTarget: 60, // 1 hora (60 minutos) = 1 ponto
-    points: 1, 
-    icon: '⏱️', 
+    points: 1,
+    icon: '⏱️',
     description: 'Ganhe 1 ponto por hora de treino!',
     levelIncrease: 60
   }
@@ -140,26 +140,26 @@ export const calculateObjectiveProgress = (type, value) => {
 // Achievements System
 const achievements = {
   attendance: [
-    { id: 'att1', title: 'Primeiro Passo', description: 'Complete seu primeiro treino', target: 1, icon: '🌱' },
-    { id: 'att2', title: 'Iniciante', description: 'Complete 5 treinos', target: 5, icon: '🎯' },
-    { id: 'att3', title: 'Dedicado', description: 'Complete 15 treinos', target: 15, icon: '🎯' },
-    { id: 'att4', title: 'Consistente', description: 'Complete 30 treinos', target: 30, icon: '🎯' },
-    { id: 'att5', title: 'Veterano', description: 'Complete 50 treinos', target: 50, icon: '🏆' },
-    { id: 'att6', title: 'Mestre', description: 'Complete 100 treinos', target: 100, icon: '👑' },
-    { id: 'att7', title: 'Elite', description: 'Complete 150 treinos', target: 150, icon: '💫' },
-    { id: 'att8', title: 'Lendário', description: 'Complete 200 treinos', target: 200, icon: '🌟' },
-    { id: 'att9', title: 'Mítico', description: 'Complete 300 treinos', target: 300, icon: '⚜️' },
-    { id: 'att10', title: 'Imortal', description: 'Complete 365 treinos', target: 365, icon: '🔱' },
-    { id: 'att11', title: 'Ascendente', description: 'Complete 400 treinos', target: 400, icon: '🌠' },
-    { id: 'att12', title: 'Divino', description: 'Complete 450 treinos', target: 450, icon: '✨' },
-    { id: 'att13', title: 'Celestial', description: 'Complete 500 treinos', target: 500, icon: '🌟' },
-    { id: 'att14', title: 'Transcendente', description: 'Complete 600 treinos', target: 600, icon: '💫' },
-    { id: 'att15', title: 'Infinito', description: 'Complete 700 treinos', target: 700, icon: '♾️' },
-    { id: 'att16', title: 'Supremo', description: 'Complete 800 treinos', target: 800, icon: '👑' },
-    { id: 'att17', title: 'Absoluto', description: 'Complete 900 treinos', target: 900, icon: '🏅' },
-    { id: 'att18', title: 'Eterno', description: 'Complete 1000 treinos', target: 1000, icon: '🌌' },
-    { id: 'att19', title: 'Onipresente', description: 'Complete 1500 treinos', target: 1500, icon: '🎭' },
-    { id: 'att20', title: 'Omnisciente', description: 'Complete 2000 treinos', target: 2000, icon: '🌈' }
+    { id: 'att1', title: 'Primeiro Passo', description: 'Completou seu primeiro treino', target: 1, icon: '🌱' },
+    { id: 'att2', title: 'Iniciante', description: 'Completou 5 treinos', target: 5, icon: '🎯' },
+    { id: 'att3', title: 'Dedicado', description: 'Completou 15 treinos', target: 15, icon: '🎯' },
+    { id: 'att4', title: 'Consistente', description: 'Completou 30 treinos', target: 30, icon: '🎯' },
+    { id: 'att5', title: 'Veterano', description: 'Completou 50 treinos', target: 50, icon: '🏆' },
+    { id: 'att6', title: 'Mestre', description: 'Completou 100 treinos', target: 100, icon: '👑' },
+    { id: 'att7', title: 'Elite', description: 'Completou 150 treinos', target: 150, icon: '💫' },
+    { id: 'att8', title: 'Lendário', description: 'Completou 200 treinos', target: 200, icon: '🌟' },
+    { id: 'att9', title: 'Mítico', description: 'Completou 300 treinos', target: 300, icon: '⚜️' },
+    { id: 'att10', title: 'Imortal', description: 'Completou 365 treinos', target: 365, icon: '🔱' },
+    { id: 'att11', title: 'Ascendente', description: 'Completou 400 treinos', target: 400, icon: '🌠' },
+    { id: 'att12', title: 'Divino', description: 'Completou 450 treinos', target: 450, icon: '✨' },
+    { id: 'att13', title: 'Celestial', description: 'Completou 500 treinos', target: 500, icon: '🌟' },
+    { id: 'att14', title: 'Transcendente', description: 'Completou 600 treinos', target: 600, icon: '💫' },
+    { id: 'att15', title: 'Infinito', description: 'Completou 700 treinos', target: 700, icon: '♾️' },
+    { id: 'att16', title: 'Supremo', description: 'Completou 800 treinos', target: 800, icon: '👑' },
+    { id: 'att17', title: 'Absoluto', description: 'Completou 900 treinos', target: 900, icon: '🏅' },
+    { id: 'att18', title: 'Eterno', description: 'Completou 1000 treinos', target: 1000, icon: '🌌' },
+    { id: 'att19', title: 'Onipresente', description: 'Completou 1500 treinos', target: 1500, icon: '🎭' },
+    { id: 'att20', title: 'Omnisciente', description: 'Completou 2000 treinos', target: 2000, icon: '🌈' }
   ],
   distance: [
     { id: 'dist1', title: 'Primeiro Quilômetro', description: 'Percorra 1km', target: 1, icon: '🌱' },
@@ -228,26 +228,26 @@ const achievements = {
     { id: 'streak20', title: 'Universal', description: 'Treine 365 dias seguidos', target: 365, icon: '🌈' }
   ],
   intensity: [
-    { id: 'int1', title: 'Aquecendo', description: 'Complete um treino intenso', target: 1, icon: '🌡️' },
-    { id: 'int2', title: 'Energético', description: 'Complete 5 treinos intensos', target: 5, icon: '⚡' },
-    { id: 'int3', title: 'Poderoso', description: 'Complete 10 treinos intensos', target: 10, icon: '💪' },
-    { id: 'int4', title: 'Explosivo', description: 'Complete 20 treinos intensos', target: 20, icon: '🔥' },
-    { id: 'int5', title: 'Super-Humano', description: 'Complete 30 treinos intensos', target: 30, icon: '👊' },
-    { id: 'int6', title: 'Ultra Instinto', description: 'Complete 50 treinos intensos', target: 50, icon: '⚔️' },
-    { id: 'int7', title: 'Além dos Limites', description: 'Complete 75 treinos intensos', target: 75, icon: '🌟' },
-    { id: 'int8', title: 'Força Suprema', description: 'Complete 100 treinos intensos', target: 100, icon: '💥' },
-    { id: 'int9', title: 'Poder Máximo', description: 'Complete 150 treinos intensos', target: 150, icon: '⚡' },
-    { id: 'int10', title: 'Força Divina', description: 'Complete 200 treinos intensos', target: 200, icon: '🔱' },
-    { id: 'int11', title: 'Poder Celestial', description: 'Complete 250 treinos intensos', target: 250, icon: '✨' },
-    { id: 'int12', title: 'Força Cósmica', description: 'Complete 300 treinos intensos', target: 300, icon: '🌠' },
-    { id: 'int13', title: 'Poder Transcendental', description: 'Complete 350 treinos intensos', target: 350, icon: '💫' },
-    { id: 'int14', title: 'Força Infinita', description: 'Complete 400 treinos intensos', target: 400, icon: '♾️' },
-    { id: 'int15', title: 'Poder Absoluto', description: 'Complete 450 treinos intensos', target: 450, icon: '👑' },
-    { id: 'int16', title: 'Força Eterna', description: 'Complete 500 treinos intensos', target: 500, icon: '🏅' },
-    { id: 'int17', title: 'Poder Universal', description: 'Complete 600 treinos intensos', target: 600, icon: '🌌' },
-    { id: 'int18', title: 'Força Suprema', description: 'Complete 700 treinos intensos', target: 700, icon: '🎭' },
-    { id: 'int19', title: 'Poder Omnisciente', description: 'Complete 800 treinos intensos', target: 800, icon: '🌈' },
-    { id: 'int20', title: 'Força Definitiva', description: 'Complete 1000 treinos intensos', target: 1000, icon: '💯' }
+    { id: 'int1', title: 'Aquecendo', description: 'Completou um treino intenso', target: 1, icon: '🌡️' },
+    { id: 'int2', title: 'Energético', description: 'Completou 5 treinos intensos', target: 5, icon: '⚡' },
+    { id: 'int3', title: 'Poderoso', description: 'Completou 10 treinos intensos', target: 10, icon: '💪' },
+    { id: 'int4', title: 'Explosivo', description: 'Completou 20 treinos intensos', target: 20, icon: '🔥' },
+    { id: 'int5', title: 'Super-Humano', description: 'Completou 30 treinos intensos', target: 30, icon: '👊' },
+    { id: 'int6', title: 'Ultra Instinto', description: 'Completou 50 treinos intensos', target: 50, icon: '⚔️' },
+    { id: 'int7', title: 'Além dos Limites', description: 'Completou 75 treinos intensos', target: 75, icon: '🌟' },
+    { id: 'int8', title: 'Força Suprema', description: 'Completou 100 treinos intensos', target: 100, icon: '💥' },
+    { id: 'int9', title: 'Poder Máximo', description: 'Completou 150 treinos intensos', target: 150, icon: '⚡' },
+    { id: 'int10', title: 'Força Divina', description: 'Completou 200 treinos intensos', target: 200, icon: '🔱' },
+    { id: 'int11', title: 'Poder Celestial', description: 'Completou 250 treinos intensos', target: 250, icon: '✨' },
+    { id: 'int12', title: 'Força Cósmica', description: 'Completou 300 treinos intensos', target: 300, icon: '🌠' },
+    { id: 'int13', title: 'Poder Transcendental', description: 'Completou 350 treinos intensos', target: 350, icon: '💫' },
+    { id: 'int14', title: 'Força Infinita', description: 'Completou 400 treinos intensos', target: 400, icon: '♾️' },
+    { id: 'int15', title: 'Poder Absoluto', description: 'Completou 450 treinos intensos', target: 450, icon: '👑' },
+    { id: 'int16', title: 'Força Eterna', description: 'Completou 500 treinos intensos', target: 500, icon: '🏅' },
+    { id: 'int17', title: 'Poder Universal', description: 'Completou 600 treinos intensos', target: 600, icon: '🌌' },
+    { id: 'int18', title: 'Força Suprema', description: 'Completou 700 treinos intensos', target: 700, icon: '🎭' },
+    { id: 'int19', title: 'Poder Omnisciente', description: 'Completou 800 treinos intensos', target: 800, icon: '🌈' },
+    { id: 'int20', title: 'Força Definitiva', description: 'Completou 1000 treinos intensos', target: 1000, icon: '💯' }
   ],
   milestones: [
     { id: 'mile1', title: 'Iniciante', description: 'Alcance o nível 5', target: 5, icon: '🌱' },

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 import './BasicLayout.css';
 
 const BasicLayout = ({ children }) => {
@@ -41,17 +42,22 @@ const BasicLayout = ({ children }) => {
   };
 
   return (
-    <div className="basic-layout">
-      <Header 
-        toggleSidebar={toggleSidebar}
-        isSidebarOpen={isSidebarOpen}
+    <div className={`basic-layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+      <Sidebar 
+        isOpen={isSidebarOpen}
+        onClose={toggleSidebar}
         onLogout={handleLogout}
       />
-
-      {/* Main Content */}
-      <main className="main-content">
-        {children}
-      </main>
+      <div className="main-content">
+        <Header 
+          toggleSidebar={toggleSidebar}
+          isSidebarOpen={isSidebarOpen}
+          onLogout={handleLogout}
+        />
+        <main className="content">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };

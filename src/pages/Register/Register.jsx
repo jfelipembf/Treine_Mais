@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/images/logo.png';
 import './Register.css';
 
 const Register = () => {
@@ -31,7 +32,8 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-header">
-          <h1>Criar Conta</h1>
+          <img src={logo} alt="Logo" className="auth-logo" />
+          <h2>Cadastro</h2>
           <p>Preencha os dados para se registrar</p>
         </div>
         

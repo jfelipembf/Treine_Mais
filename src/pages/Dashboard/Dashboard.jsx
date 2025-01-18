@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser, FaShare, FaWhatsapp, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaTrophy, FaBolt, FaRuler, FaBell, FaUser, FaShare, FaShareAlt, FaPlus, FaWhatsapp, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { doc, updateDoc, arrayUnion, collection, addDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -127,18 +127,18 @@ const Dashboard = () => {
     return (
       <div className="achievement-card">
         <div className="achievement-header">
-          <span className="achievement-icon">{icon}</span>
+          <div className="achievement-icon-wrapper">
+            {icon}
+          </div>
           <div className="achievement-info">
             <h3>{title}</h3>
             <div className="points-info">
               <span className="current-value">{currentValue}</span>
               <span className="separator">/</span>
               <span className="next-value">{nextObjective}</span>
-              <span className="total-points">+{totalPoints} pontos</span>
             </div>
           </div>
         </div>
-
         <div className="achievement-progress">
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }}></div>
@@ -298,7 +298,9 @@ const Dashboard = () => {
                 <FaWhatsapp />
                 <span>Compartilhar no WhatsApp</span>
               </a>
-              
+　
+　
+　
               <a 
                 href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=${shareText}`}
                 className="share-option facebook"
@@ -309,7 +311,9 @@ const Dashboard = () => {
                 <FaFacebook />
                 <span>Compartilhar no Facebook</span>
               </a>
-              
+　
+　
+　
               <a 
                 href={`https://twitter.com/intent/tweet?text=${shareText}`}
                 className="share-option twitter"
@@ -342,12 +346,6 @@ const Dashboard = () => {
     <BasicLayout>
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        <button 
-          className="add-record-button"
-          onClick={() => setIsNewRecordModalOpen(true)}
-        >
-          Nova Marca
-        </button>
       </div>
 
       {userData && (
@@ -355,25 +353,30 @@ const Dashboard = () => {
           <div className="user-notification-card">
             <div className="user-info">
               <div className="user-avatar">
-                {userData.photoURL ? (
-                  <img src={userData.photoURL} alt="User avatar" />
+                {userData?.photoURL ? (
+                  <img src={userData.photoURL} alt="Avatar" />
                 ) : (
-                  <FaUser />
+                  <FaUser className="FaUser" />
                 )}
               </div>
               <div className="user-details">
-                <h3>{userData.displayName || 'Usuário'}</h3>
-                <p>{userData.email}</p>
+                <h3>{userData?.name || 'Usuário'}</h3>
+                <p>{userData?.email || 'email@exemplo.com'}</p>
               </div>
+              <button 
+                className="notification-button"
+                onClick={() => setIsNotificationModalOpen(true)}
+              >
+                <FaBell />
+                {notificationCount > 0 && (
+                  <span className="notification-badge">{notificationCount}</span>
+                )}
+              </button>
             </div>
-            <button 
-              className="notification-button"
-              onClick={() => setIsNotificationModalOpen(true)}
-            >
-              <FaBell size={18} />
-              {hasNotifications && <span className="notification-badge">{notificationCount}</span>}
-            </button>
           </div>
+          <button className="add-mark-button" onClick={() => setIsNewRecordModalOpen(true)}>
+              <FaPlus /> Adicionar Marca
+            </button>
 
           <div className="level-card">
             <div className="level-info">
@@ -393,7 +396,7 @@ const Dashboard = () => {
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke="#FFD700"
+                    stroke="#3E54AC"
                     strokeWidth="3"
                     strokeLinecap="round"
                     className="circle"
@@ -522,7 +525,7 @@ const Dashboard = () => {
                           <div 
                             className="achievement-progress-ring"
                             style={{
-                              background: `conic-gradient(#FFD700 ${achievement.progress * 3.6}deg, rgba(255,255,255,0.1) 0deg)`
+                              background: `conic-gradient(#3E54AC ${achievement.progress * 3.6}deg, rgba(255,255,255,0.1) 0deg)`
                             }}
                           />
                         </div>
@@ -582,7 +585,7 @@ const Dashboard = () => {
       <NewRecordModal
         isOpen={isNewRecordModalOpen}
         onClose={() => setIsNewRecordModalOpen(false)}
-        onNewRecord={handleNewRecord}
+        onSubmit={handleNewRecord}
       />
       <ToastContainer />
       <ShareModal />

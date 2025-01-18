@@ -19,13 +19,13 @@
 
 /* Primary Button */
 .custom-button.primary {
-  background: linear-gradient(45deg, #4a90e2, #63b3ed);
+  background: linear-gradient(45deg, #3E54AC, #3E54AC);
   color: white;
 }
 
 .custom-button.primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
 }
 
 .custom-button.primary:active:not(:disabled) {
@@ -53,19 +53,19 @@
 }
 
 .custom-button.dashed:hover:not(:disabled) {
-  border-color: #4a90e2;
-  color: #4a90e2;
+  border-color: #3E54AC;
+  color: #3E54AC;
 }
 
 /* Link Button */
 .custom-button.link {
   background: transparent;
-  color: #4a90e2;
+  color: #3E54AC;
   padding: 4px 8px;
 }
 
 .custom-button.link:hover:not(:disabled) {
-  color: #63b3ed;
+  color: #3E54AC;
   text-decoration: underline;
 }
 
